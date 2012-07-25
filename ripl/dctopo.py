@@ -371,6 +371,10 @@ class FatTreeTopo(StructuredTopo):
             src_port: port on source switch leading to the destination switch
             dst_port: port on destination switch leading to the source switch
         '''
+        # If there are non-FatTree nodes, query the superclass for ports
+        if not (hasattr(self.node_info[src], 'layer') and hasattr(self.node_info[dst], 'layer')):
+            return super(FatTreeTopo, self).port(src, dst)
+
         src_layer = self.layer(src)
         dst_layer = self.layer(dst)
 
